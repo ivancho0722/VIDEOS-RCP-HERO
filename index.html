@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RCP HERO · Visor</title>
 <style>
 :root{--bg:#071016;--panel:#0d1820;--line:#1c3542;--text:#eef7fa;--muted:#8ea7b3;--cyan:#39e6ff}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(57,230,255,.1),transparent 30%),linear-gradient(135deg,#050b10,#071016 55%,#08131b);color:var(--text);font-family:Segoe UI,Arial,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px}.app{width:min(1100px,100%)}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.brand{font-weight:800;letter-spacing:.12em}.brand span{color:var(--cyan)}.badge{border:1px solid var(--line);border-radius:999px;padding:7px 12px;color:var(--muted);font-size:12px}.card{background:rgba(13,24,32,.95);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 18px 60px #0008}.top{padding:20px 22px 16px;border-bottom:1px solid var(--line)}h1{font-size:25px;margin:0 0 6px}#subtitle{margin:0;color:var(--muted)}.video{background:#000;aspect-ratio:16/9}.video video{width:100%;height:100%;display:block}.bottom{padding:18px 22px 22px;display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}.file{font:14px Consolas,monospace;color:var(--cyan)}.hint{font-size:13px;color:var(--muted);margin-top:5px}.actions{display:flex;gap:10px}button,a{border:1px solid var(--line);background:#0b2029;color:var(--text);border-radius:10px;padding:10px 14px;text-decoration:none;font-weight:700;cursor:pointer}button:hover,a:hover{border-color:var(--cyan);color:var(--cyan)}.error{display:none;margin:18px 22px;padding:14px;border:1px solid #633b3b;border-radius:10px;background:#211214;color:#ffd7d7}.footer{text-align:center;color:#607984;font-size:11px;margin-top:14px}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 80% 10%,rgba(57,230,255,.1),transparent 30%),linear-gradient(135deg,#050b10,#071016 55%,#08131b);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px}.app{width:min(1100px,100%)}.header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:18px}.brand{letter-spacing:.12em;font-weight:800;font-size:18px}.brand span{color:var(--cyan)}.badge{border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:7px 12px;font-size:12px}.card{background:rgba(13,24,32,.94);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.35)}.top{padding:20px 22px 16px;border-bottom:1px solid var(--line)}h1{font-size:25px;margin:0 0 6px}#subtitle{color:var(--muted);margin:0}.video-wrap{background:#000;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}video{width:100%;height:100%;display:block;background:#000}.bottom{padding:18px 22px 22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}.file{font-family:Consolas,monospace;color:var(--cyan);font-size:14px}.hint{color:var(--muted);font-size:13px;margin-top:5px}.actions{display:flex;gap:10px;flex-wrap:wrap}button,a.btn{border:1px solid var(--line);background:#0b2029;color:var(--text);border-radius:10px;padding:10px 14px;text-decoration:none;cursor:pointer;font-weight:700}button:hover,a.btn:hover{border-color:var(--cyan);color:var(--cyan)}.error{display:none;margin:18px 22px 22px;padding:14px;border:1px solid #633b3b;border-radius:10px;background:#211214;color:#ffd7d7;font-size:14px}.footer{text-align:center;color:#607984;font-size:11px;margin-top:14px}
 </style>
 </head>
 <body>
@@ -14,28 +14,30 @@
 <div class="header"><div class="brand">RCP <span>HERO</span> · SIMULATION LAB</div><div class="badge">RECURSO AUDIOVISUAL</div></div>
 <section class="card">
 <div class="top"><h1 id="title">Recurso audiovisual</h1><p id="subtitle">Observa el ritmo y vuelve a la simulación para tomar tu decisión.</p></div>
-<div class="video"><video id="player" controls playsinline preload="metadata"></video></div>
+<div class="video-wrap"><video id="player" controls autoplay muted playsinline preload="auto"></video></div>
 <div id="error" class="error"></div>
-<div class="bottom"><div><div class="file" id="filename"></div><div class="hint">Analiza lo observado; no interpretes el ritmo por el nombre del archivo.</div></div><div class="actions"><button id="reload">↻ Recargar</button><a id="raw" target="_blank" rel="noopener">Abrir recurso</a></div></div>
-</section><div class="footer">RCP HERO · Recurso de simulación educativa</div>
+<div class="bottom"><div><div class="file" id="filename"></div><div class="hint">Analiza el ritmo observado; no interpretes el trazado por el nombre del archivo.</div></div>
+<div class="actions"><button id="replay">↻ Reproducir de nuevo</button><a id="raw" class="btn" target="_blank" rel="noopener">Abrir recurso</a></div></div>
+</section>
+<div class="footer">RCP HERO · Recurso de simulación educativa</div>
 </main>
 <script>
-const REPO='https://raw.githubusercontent.com/ivancho0722/VIDEOS-RCP-HERO/main/';
-const aliases={
- 'taquicardia_ventricular_polimorfica.mp4':'TVPM.mp4',
- 'bloqueo_2_grado_MOB2.mp4':'MOB2A.mp4'
-};
-const p=new URLSearchParams(location.search);
-const requested=(p.get('video')||'AESP.mp4').split('/').pop().split('\\').pop();
-const physical=aliases[requested]||requested;
+const REPO="https://raw.githubusercontent.com/ivancho0722/VIDEOS-RCP-HERO/main/";
+const aliases={"taquicardia_ventricular_polimorfica.mp4":"TVPM.mp4","bloqueo_2_grado_MOB2.mp4":"MOB2A.mp4"};
+const requested=new URLSearchParams(location.search).get("video")||"AESP.mp4";
+let physical=(aliases[requested]||requested).split("/").pop().split("\\").pop();
 const src=REPO+encodeURIComponent(physical);
-const player=document.getElementById('player');
-document.getElementById('filename').textContent=requested;
-document.getElementById('title').textContent=requested.replace(/\.mp4$/i,'').replace(/_/g,' ').toUpperCase();
-if(requested!==physical)document.getElementById('subtitle').textContent='Recurso audiovisual · archivo físico: '+physical;
-player.src=src; document.getElementById('raw').href=src;
-player.addEventListener('error',()=>{const e=document.getElementById('error');e.style.display='block';e.textContent='No se pudo cargar el recurso. Verifica el nombre exacto del archivo en VIDEOS-RCP-HERO: '+physical});
-document.getElementById('reload').onclick=()=>{player.load();};
+const player=document.getElementById("player");
+document.getElementById("filename").textContent=requested;
+document.getElementById("raw").href=src;
+document.getElementById("title").textContent=requested.replace(/\.mp4$/i,"").replace(/_/g," ").toUpperCase();
+if(requested!==physical)document.getElementById("subtitle").textContent="Recurso audiovisual · archivo físico: "+physical;
+player.src=src;
+player.load();
+player.play().catch(()=>{});
+player.addEventListener("canplay",()=>player.play().catch(()=>{}),{once:true});
+player.addEventListener("error",()=>{const e=document.getElementById("error");e.style.display="block";e.textContent="No se pudo cargar el recurso: "+physical});
+document.getElementById("replay").onclick=()=>{player.currentTime=0;player.play().catch(()=>{})};
 </script>
 </body>
 </html>
